@@ -1,0 +1,21 @@
+/* SCSS variables for theme adjustments */
+$primary-color: #1e293b;
+$secondary-color: #374151;
+$accent-color: #facc15;
+$text-color: #e5e7eb;
+
+/* Login Page Styling */
+body {
+  background-color: $primary-color;
+  color: $text-color;
+}
+
+h1 {
+  color: $text-color;
+}
+
+a {
+  &:hover {
+    text-decoration: underline;
+  }
+}

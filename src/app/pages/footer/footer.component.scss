@@ -1,0 +1,14 @@
+a {
+    transition: all 200ms ease-in-out;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+    color: #fbbf24; /* Tailwind's yellow-400 */
+  }
+  
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
