@@ -53,7 +53,9 @@ export class AdminDashboardComponent implements OnInit {
     this.courseStats.total = courses.length;
     
     // Calculate unique instructors
-    const uniqueInstructors = new Set(courses.map(course => course.instructorId));
+    console.log(courses)
+    const uniqueInstructors = new Set(courses.map(course => course.instructorName));
+    console.log(uniqueInstructors);
     this.courseStats.activeInstructors = uniqueInstructors.size;
     
     // Calculate total enrollments

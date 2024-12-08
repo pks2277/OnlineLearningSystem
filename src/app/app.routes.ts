@@ -26,6 +26,9 @@ import {LearningPathCreateComponent} from './pages/instructor/learning-paths/lea
 // import {LearningPathEditComponent} from './pages/instructor/learning-paths/learning-path-edit/learning-path-edit.component';
 import {AdminDashboardComponent} from './pages/admin/admin-dashboard/admin-dashboard.component';
 import {SupportDashboardComponent} from './pages/support/support-dashboard/support-dashboard.component';
+import {CourseContentComponent} from './pages/learner/course-content/course-content.component'
+import {EnrolledCoursesComponent} from './pages/learner/enrolled-courses/enrolled-courses.component'
+
 export const routes: Routes = [
   // Public Routes
   { 
@@ -73,10 +76,14 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: { roles: ['learner'] },
     children: [
-      { path: 'dashboard', component: LearnerDashboardComponent },
+      { path: 'dashboard', component: EnrolledCoursesComponent  },
+      { path: 'my-courses', component: EnrolledCoursesComponent },
+      { path: 'course/:courseId/learn', component: CourseContentComponent },
+      
+      // { path: 'dashboard', component: LearnerDashboardComponent },
       // { path: 'courses', component: CourseCatalogComponent },
       // { path: 'courses/:id', component: CourseDetailComponent },
-      {path:'learning-path',component:LearningPathListComponent},
+      // {path:'learning-path',component:LearningPathListComponent},
       // { path: 'my-courses', component: EnrolledCoursesComponent },
       // { path: 'assignments', component: AssignmentsComponent },
       // { path: 'quizzes', component: QuizzesComponent },

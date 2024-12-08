@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DiscussionService {
-  private apiUrl = 'https://localhost:7032/api/discussions';
+  private apiUrl = 'https://wq5w12lw-7032.inc1.devtunnels.ms/api/discussions';
 
   constructor(private http: HttpClient) {}
 

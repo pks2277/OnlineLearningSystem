@@ -14,7 +14,7 @@ export interface ContactFormData {
   providedIn: 'root'
 })
 export class ContactService {
-  private apiUrl = 'https://localhost:7032/api/contact';
+  private apiUrl = 'https://wq5w12lw-7032.inc1.devtunnels.ms/api/contact';
 
   constructor(private http: HttpClient) {}
 

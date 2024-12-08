@@ -1,12 +1,13 @@
 // src/app/pages/public/course-details/course-details.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CourseService } from '../../../services/course.service';
 import { Course } from '../../../models/course.model';
 import { NavbarComponent } from '../../../components/navbar/navbar.component';
 import { FooterComponent } from '../../../components/footer/footer.component';
-
+import { EnrollmentService } from '../../../services/enrollment.service';
+import {EnrollmentRequest} from "../../../models/enrollment.model"
 @Component({
   selector: 'app-course-details',
   standalone: true,
@@ -21,8 +22,10 @@ export class CourseDetailsComponent implements OnInit {
   error = '';
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private enrollmentService: EnrollmentService
   ) {}
 
   ngOnInit() {
@@ -45,8 +48,12 @@ export class CourseDetailsComponent implements OnInit {
   }
 
   enrollInCourse() {
-    this.courseService.enrollInCourse(this.courseId).subscribe({
-      next: () => console.log('Successfully enrolled'),
+    let enrolReq = {
+      courseId:this.courseId,
+      paymentMethod:"gpay"
+    }
+    this.enrollmentService.enrollInCourse(enrolReq).subscribe({
+      next: () => this.router.navigate(["/learner/my-courses"]),
       error: (err) => this.error = 'Failed to enroll'
     });
   }

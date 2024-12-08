@@ -25,7 +25,7 @@ interface CourseFilters {
 })
 
 export class CourseService {
-  private apiUrl = 'https://localhost:7032/api/Courses';
+  private apiUrl = 'https://wq5w12lw-7032.inc1.devtunnels.ms/api/Courses';
 
   constructor(private http: HttpClient) {}
 

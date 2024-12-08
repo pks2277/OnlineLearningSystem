@@ -26,7 +26,7 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7032/api/Auth';
+  private apiUrl = 'https://wq5w12lw-7032.inc1.devtunnels.ms/api/Auth';
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser$: Observable<any>;
 

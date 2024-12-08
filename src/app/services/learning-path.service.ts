@@ -8,7 +8,7 @@ import { LearningPath } from '../models/learning-path.model';
   providedIn: 'root'
 })
 export class LearningPathService {
-  private apiUrl = 'https://localhost:7032/api/LearningPath';
+  private apiUrl = 'https://wq5w12lw-7032.inc1.devtunnels.ms/api/LearningPath';
 
   constructor(private http: HttpClient) {}
 
