@@ -1,0 +1,31 @@
+// src/app/pages/instructor/learning-paths/learning-path-create.component.scss
+:host {
+    display: block;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+  }
+  
+  .form-section {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+  }
+  
+  .invalid-input {
+    border-color: #ef4444;
+  }
+  
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }

@@ -1,0 +1,51 @@
+<!-- src/app/pages/login-form/login-form.component.html -->
+ <app-navbar></app-navbar>
+<div class="min-h-screen bg-gray-900 flex items-center justify-center">
+  <div class="max-w-md w-full bg-gray-800 rounded-lg shadow-lg p-8">
+    <h2 class="text-3xl text-yellow-500 font-bold text-center mb-8">Login</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Username -->
+      <div class="mb-6">
+        <label class="block text-sm text-gray-300 mb-2">Username</label>
+        <input 
+          type="text" 
+          formControlName="username"
+          class="w-full px-4 py-2 rounded bg-gray-700 text-white border"
+          [ngClass]="{'border-red-500': loginForm.get('username')?.touched && loginForm.get('username')?.invalid}"
+        >
+      </div>
+
+      <!-- Password -->
+      <div class="mb-6">
+        <label class="block text-sm text-gray-300 mb-2">Password</label>
+        <input 
+          type="password" 
+          formControlName="password"
+          class="w-full px-4 py-2 rounded bg-gray-700 text-white border"
+          [ngClass]="{'border-red-500': loginForm.get('password')?.touched && loginForm.get('password')?.invalid}"
+        >
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="error" class="text-red-500 text-sm mb-4">
+        {{error}}
+      </div>
+
+      <!-- Submit Button -->
+      <button 
+        type="submit" 
+        class="w-full py-3 bg-yellow-500 text-gray-900 rounded font-bold"
+        [disabled]="loading"
+      >
+        {{loading ? 'Logging in...' : 'Login'}}
+      </button>
+
+      <!-- Sign Up Link -->
+      <p class="text-center text-gray-400 mt-4">
+        Don't have an account? 
+        <a href="/signup" class="text-yellow-500 hover:underline">Sign Up</a>
+      </p>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,239 @@
+<!-- course-create.component.html -->
+<div class="container mx-auto px-4 py-8">
+  <form [formGroup]="courseForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    @if (error) {
+      <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-4">
+        {{ error }}
+      </div>
+    }
+
+    <!-- Basic Course Information -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+      <h2 class="text-xl font-semibold mb-4">Basic Course Information</h2>
+      <div class="space-y-4">
+        <!-- Title -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Course Title</label>
+          <input 
+            type="text" 
+            formControlName="title"
+            class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-2"
+            [ngClass]="{'border-red-500': courseForm.get('title')?.invalid && courseForm.get('title')?.touched}"
+          >
+          @if (courseForm.get('title')?.invalid && courseForm.get('title')?.touched) {
+            <p class="text-red-500 text-sm mt-1">Title is required and must be at least 5 characters</p>
+          }
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Description</label>
+          <textarea 
+            formControlName="description"
+            rows="4"
+            class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-2"
+            [ngClass]="{'border-red-500': courseForm.get('description')?.invalid && courseForm.get('description')?.touched}"
+          ></textarea>
+          @if (courseForm.get('description')?.invalid && courseForm.get('description')?.touched) {
+            <p class="text-red-500 text-sm mt-1">Description must be at least 20 characters</p>
+          }
+        </div>
+
+        <!-- Category and Difficulty Level -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Category</label>
+            <select 
+              formControlName="category"
+              class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-2"
+            >
+              <option value="">Select Category</option>
+              @for (category of categories; track category) {
+                <option [value]="category">{{ category }}</option>
+              }
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Difficulty Level</label>
+            <select 
+              formControlName="difficultyLevel"
+              class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-2"
+            >
+              <option value="">Select Difficulty</option>
+              @for (level of difficultyLevels; track level) {
+                <option [value]="level">{{ level }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <!-- Duration and Price -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Duration (hours)</label>
+            <input 
+              type="number" 
+              formControlName="duration"
+              class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-2"
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Price</label>
+            <input 
+              type="number" 
+              formControlName="price"
+              class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-2"
+            >
+          </div>
+        </div>
+
+        <!-- Thumbnail Upload -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Course Thumbnail</label>
+          <div class="mt-1 flex items-center">
+            @if (thumbnailPreview) {
+              <img [src]="thumbnailPreview" class="h-32 w-32 object-cover rounded-lg">
+            }
+            <input 
+              type="file" 
+              (change)="onThumbnailSelect($event)"
+              accept="image/*"
+              class="ml-4"
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Course Content Section -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+      <h2 class="text-xl font-semibold mb-4">Course Content</h2>
+      
+      <!-- Content Form -->
+      <form [formGroup]="contentForm" (ngSubmit)="addContent()" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Content Title</label>
+            <input 
+              type="text" 
+              formControlName="title"
+              class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-2"
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Content Type</label>
+            <select 
+              formControlName="type"
+              class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-2"
+            >
+              @for (type of contentTypes; track type) {
+                <option [value]="type">{{ type }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Description</label>
+          <textarea 
+            formControlName="description"
+            rows="3"
+            class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-2"
+          ></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="-gray-700">Duration (minutes)</label>
+            <input 
+              type="number" 
+              formControlName="duration"
+              class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm p-2"
+            >
+          </div>
+
+          <div class="flex items-center mt-6">
+            <input 
+              type="checkbox" 
+              formControlName="isDownloadable"
+              class="rounded border-gray-300"
+            >
+            <label class="ml-2 block text-sm text-gray-700">Downloadable</label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Content File</label>
+          <input 
+            type="file" 
+            (change)="onContentFileSelect($event)"
+            class="mt-1 block w-full"
+          >
+        </div>
+
+        <button 
+          type="submit"
+          class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          [disabled]="!contentForm.valid"
+        >
+          Add Content
+        </button>
+      </form>
+
+      <!-- Content List -->
+      @if (contents.length > 0) {
+        <div class="mt-6">
+          <h3 class="text-lg font-medium mb-2">Added Content</h3>
+          <div class="space-y-2">
+            @for (content of contents; track content.order) {
+              <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                <div>
+                  <h4 class="font-medium">{{ content.title }}</h4>
+                  <p class="text-sm text-gray-600">{{ content.type }}</p>
+                </div>
+                <button 
+                  (click)="removeContent(content.order)"
+                  class="text-red-500 hover:text-red-700"
+                >
+                  Remove
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Submit Buttons -->
+    <div class="flex justify-end space-x-4">
+      <button 
+        type="button"
+        (click)="cancel()"
+        class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
+      >
+        Cancel
+      </button>
+      
+      <button 
+        type="submit"
+        [disabled]="courseForm.invalid || loading"
+        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300"
+      >
+        @if (loading) {
+          <span class="flex items-center">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Creating...
+          </span>
+        } @else {
+          Create Course
+        }
+      </button>
+    </div>
+  </form>
+</div>

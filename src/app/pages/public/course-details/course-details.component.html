@@ -1,0 +1,51 @@
+<!-- src/app/pages/public/course-details/course-details.component.html -->
+<app-navbar></app-navbar>
+<div class="container mx-auto px-4 pt-24 pb-12">
+  @if (loading) {
+    <div class="flex justify-center items-center h-64">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+    </div>
+  } @else if (error) {
+    <div class="text-red-500 text-center p-4 bg-red-100 rounded-md">
+      {{error}}
+    </div>
+  } @else if (course) {
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="aspect-video relative bg-gray-100">
+        <img 
+          [src]="course.thumbnailURL ? 'https://localhost:7032' + course.thumbnailURL : '/assets/images/default-course.jpg'" 
+          [alt]="course.title"
+          class="object-cover w-full h-full">
+      </div>
+      
+      <div class="p-6">
+        <h1 class="text-3xl font-bold mb-4">{{course.title}}</h1>
+        <p class="text-gray-600 mb-6">{{course.description}}</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="font-semibold mb-2">Course Details</h3>
+            <p><span class="text-gray-600">Category:</span> {{course.category}}</p>
+            <p><span class="text-gray-600">Difficulty:</span> {{course.difficultyLevel}}</p>
+            <p><span class="text-gray-600">Duration:</span> {{course.duration}} hours</p>
+          </div>
+          
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="font-semibold mb-2">Course Stats</h3>
+            <p><span class="text-gray-600">Enrolled Students:</span> {{course.enrollmentCount || 0}}</p>
+            <p><span class="text-gray-600">Rating:</span> {{course.averageRating || 'N/A'}}</p>
+            <p><span class="text-gray-600">Instructor:</span> {{course.instructorName}}</p>
+          </div>
+        </div>
+
+        <button 
+          (click)="enrollInCourse()"
+          class="w-full md:w-auto px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+        >
+          Enroll Now
+        </button>
+      </div>
+    </div>
+  }
+</div>
+<app-footer></app-footer>

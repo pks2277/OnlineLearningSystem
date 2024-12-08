@@ -1,0 +1,123 @@
+<!-- src/app/pages/public/course/course.component.html -->
+<app-navbar></app-navbar>
+<div class="container mx-auto px-4 pt-24">
+  <!-- Filters Section -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Category Filter -->
+      <div>
+        <select 
+          [(ngModel)]="filters.category" 
+          (change)="applyFilters()"
+          class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+          <option value="">All Categories</option>
+          @for (category of categories; track category) {
+            <option [value]="category">{{category}}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Difficulty Level Filter -->
+      <div>
+        <select 
+          [(ngModel)]="filters.difficultyLevel" 
+          (change)="applyFilters()"
+          class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+          <option value="">All Levels</option>
+          @for (level of difficultyLevels; track level) {
+            <option [value]="level">{{level}}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Search Input -->
+      <div class="flex gap-2">
+        <input 
+          type="text" 
+          [(ngModel)]="filters.searchTerm"
+          (input)="applyFilters()"
+          placeholder="Search courses..."
+          class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <button 
+        (click)="resetFilters()"
+        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">
+        Reset Filters
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading) {
+    <div class="flex justify-center items-center h-64">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+    </div>
+  } 
+  
+  <!-- Error State -->
+  @else if (error) {
+    <div class="text-red-500 text-center p-4 bg-red-100 rounded-md">
+      {{error}}
+    </div>
+  } 
+  
+  <!-- Empty State -->
+  @else if (courses.length === 0) {
+    <div class="text-center p-8 bg-gray-50 rounded-md">
+      <p class="text-gray-500">No courses found matching your criteria.</p>
+    </div>
+  } 
+  
+  <!-- Courses Grid -->
+  @else {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (course of courses; track course.id) {
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <!-- Course Image -->
+          <div class="aspect-video relative bg-gray-100">
+            <img 
+              [src]="course.thumbnailURL ? 'https://localhost:7032' + course.thumbnailURL : '/assets/images/default-course.jpg'" 
+              [alt]="course.title"
+              class="object-cover w-full h-full">
+            <span class="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-sm">
+              {{course.difficultyLevel}}
+            </span>
+          </div>
+
+          <!-- Course Info -->
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">{{course.title}}</h3>
+            <p class="text-gray-600 mb-4 line-clamp-2">{{course.description}}</p>
+            
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-sm text-blue-800 px-2 py-1 rounded">
+                {{course.category}}
+              </span>
+              <span class="text-sm text-gray-600">
+                {{course.duration}} hours
+              </span>
+            </div>
+
+            <!-- Course Stats -->
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <span class="text-yellow-400">★</span>
+                <span class="ml-1 text-sm text-gray-600">
+                  {{course.averageRating || 'N/A'}} 
+                  ({{course.enrollmentCount || 0}} students)
+                </span>
+              </div>
+              <a 
+                [routerLink]="['/course', course.id]"
+                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                View Details
+              </a>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+<app-footer></app-footer>

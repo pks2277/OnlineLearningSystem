@@ -1,0 +1,22 @@
+/* navbar.component.scss */
+:host {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  // z-index: 1000;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
+
+.fa-chevron-down {
+  transition: transform 0.2s ease;
+}
+
+.profile-dropdown {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}

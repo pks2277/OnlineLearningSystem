@@ -1,0 +1,40 @@
+// src/app/pages/signup-form/signup-form.component.scss
+$primary-color: #1e293b;
+$secondary-color: #374151;
+$accent-color: #facc15;
+$text-color: #e5e7eb;
+
+.signup-container {
+  min-height: 100vh;
+  background-color: $primary-color;
+}
+
+.form-container {
+  background-color: $secondary-color;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.input-field {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+
+  &:focus {
+    border-color: $accent-color;
+    box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.2);
+  }
+
+  &.error {
+    border-color: #ef4444;
+  }
+}
+
+.submit-button {
+  background-color: $accent-color;
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) {
+    background-color: darken($accent-color, 10%);
+  }
+}

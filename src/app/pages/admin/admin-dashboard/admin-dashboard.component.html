@@ -1,0 +1,135 @@
+<!-- src/app/pages/admin/admin-dashboard/admin-dashboard.component.html -->
+<app-navbar></app-navbar>
+
+<div class="container mx-auto px-4 py-8 pt-20">
+  <!-- Header Section -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
+    <p class="text-gray-600">Manage and monitor all platform courses</p>
+  </div>
+
+  <!-- Create Courses Button -->
+<div class="mb-6">
+  <button 
+    (click)="createLearningPath()" 
+    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    Create Learning Path
+  </button>
+</div>
+
+
+  <!-- Statistics Overview -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white rounded-lg shadow p-6">
+      <h3 class="text-lg font-semibold text-gray-700">Total Courses</h3>
+      <p class="text-3xl font-bold text-blue-600">{{courseStats.total}}</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6">
+      <h3 class="text-lg font-semibold text-gray-700">Active Instructors</h3>
+      <p class="text-3xl font-bold text-green-600">{{courseStats.activeInstructors}}</p>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6">
+      <h3 class="text-lg font-semibold text-gray-700">Total Enrollments</h3>
+      <p class="text-3xl font-bold text-purple-600">{{courseStats.totalEnrollments}}</p>
+    </div>
+  </div>
+
+  <!-- Course List -->
+  <div class="bg-white rounded-lg shadow">
+    <div class="p-6 border-b">
+      <h2 class="text-xl font-semibold text-gray-800">All Courses</h2>
+    </div>
+
+    <!-- Loading State -->
+    @if (loading) {
+      <div class="p-6 text-center">
+        <p class="text-gray-600">Loading courses...</p>
+      </div>
+    }
+
+    <!-- Error State -->
+    @if (error) {
+      <div class="p-6">
+        <div class="bg-red-50 text-red-700 p-4 rounded">
+          {{error}}
+        </div>
+      </div>
+    }
+
+    <!-- Course Table -->
+    @if (!loading && courses.length > 0) {
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Enrollments</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            @for (course of courses; track course.id) {
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4">
+                  <div class="flex items-center">
+                    @if (course.thumbnailURL) {
+                      <img [src]="course.thumbnailURL" class="h-10 w-10 rounded-md object-cover mr-3">
+                    }
+                    <div>
+                      <div class="font-medium text-gray-900">{{course.title}}</div>
+                      <div class="text-sm text-gray-500">{{course.category}}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900">{{course.instructorName}}</div>
+                </td>
+                <td class="px-6 py-4">
+                  <span 
+                    [ngClass]="{
+                      'bg-green-100 text-green-800': course.status === 'Published',
+                      'bg-yellow-100 text-yellow-800': course.status === 'Draft',
+                      'bg-red-100 text-red-800': course.status === 'Archived'
+                    }"
+                    class="px-2 py-1 text-xs rounded-full">
+                    {{course.status}}
+                  </span>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm text-gray-900">{{course.enrollmentCount}}</div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center">
+                    <span class="text-sm text-gray-900">{{course.averageRating | number:'1.1-1'}}</span>
+                    <svg class="w-4 h-4 text-yellow-400 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <button 
+                    (click)="viewCourseDetails(course.id)"
+                    class="text-blue-600 hover:text-blue-800">
+                    View Details
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    <!-- Empty State -->
+    @if (!loading && courses.length === 0) {
+      <div class="p-6 text-center">
+        <p class="text-gray-600">No courses found</p>
+      </div>
+    }
+  </div>
+</div>
+
+<app-footer></app-footer>

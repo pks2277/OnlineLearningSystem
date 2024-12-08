@@ -1,0 +1,70 @@
+<app-navbar></app-navbar>
+<div class="container mx-auto px-4 pt-24 pb-12">
+  <h1 class="text-3xl font-bold mb-8">Learning Paths</h1>
+
+  @if (loading) {
+    <div class="flex justify-center items-center h-64">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+    </div>
+  } @else if (error) {
+    <div class="text-red-500 text-center p-4 bg-red-100 rounded-md">
+      {{error}}
+    </div>
+  } @else if (learningPaths.length === 0) {
+    <div class="text-center p-8 bg-gray-50 rounded-md">
+      <p class="text-gray-500">No learning paths available.</p>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (path of learningPaths; track path.id) {
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="p-6">
+            <h2 class="text-xl font-bold mb-2">{{path.name}}</h2>
+            <p class="text-gray-600 mb-4">{{path.description}}</p>
+            
+            <div class="mb-4">
+              <div class="flex items-center mb-2">
+                <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                <span class="text-gray-700">{{path.courseCount}} Courses</span>
+              </div>
+              
+              <div class="flex items-center mb-2">
+                <svg class="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span class="text-gray-700">{{path.duration}} Hours</span>
+              </div>
+
+              @if (path.certificationAwarded) {
+                <div class="flex items-center">
+                  <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                  </svg>
+                  <span class="text-green-600">Certification Available</span>
+                </div>
+              }
+            </div>
+
+            <div class="flex justify-between items-center">
+              <a 
+                [routerLink]="['/learning-paths', path.id]"
+                class="text-blue-500 hover:text-blue-600 font-medium"
+              >
+                View Details
+              </a>
+              <button 
+                (click)="enrollInPath(path.id)"
+                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+              >
+                Enroll Now
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+<app-footer></app-footer>
